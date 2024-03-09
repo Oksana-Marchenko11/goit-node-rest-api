@@ -36,7 +36,6 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
         throw HttpError(400,"Body must have at least one field" );
         }
         const {id} = req.params;
-        console.log(id);
         const result = await contactsService.updateContactById(id, req.body);
         if (!result) {
             throw HttpError(404, `Contact with id ${id} not found`);
