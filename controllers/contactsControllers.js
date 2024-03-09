@@ -36,12 +36,14 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
         throw HttpError(400,"Body must have at least one field" );
         }
         const {id} = req.params;
+        console.log(id);
         const result = await contactsService.updateContactById(id, req.body);
         if (!result) {
-            throw HttpError(404, "Not found");
+            throw HttpError(404, `Contact with id ${id} not found`);
         }
         res.status(200).json(result)
     };
+ const updateStatusContact = async (req, res) => {};
  
 export default {
     getAllContacts: ctrlWrapper(getAllContacts),
@@ -49,4 +51,5 @@ export default {
     deleteContact: ctrlWrapper(deleteContact),
     createContact: ctrlWrapper(createContact),
     updateContact: ctrlWrapper(updateContact),
+    updateStatusContact: ctrlWrapper(updateStatusContact),
 }

@@ -1,20 +1,25 @@
 import { Schema, model } from "mongoose";
+import { setUpdateSettings } from "./hooks.js";
 
 const contactSchema = new Schema({
     name: {
-        type: String,
-        required: true},
+      type: String,
+      required: [true, 'Set name for contact'],
+    },
     email: {
-        type: String,
-        required: true},
+      type: String,
+    },
     phone: {
-        type: String,
-        required: true},
+      type: String,
+    },
     favorite: {
-        type: Boolean,
-        required: true,
-        default: false},
-});
+      type: Boolean,
+      default: false,
+    },
+  }
+);
+
+contactSchema.pre("findOneAndUpdate", setUpdateSettings);
 
 const Contact =  model("contact", contactSchema);
 
