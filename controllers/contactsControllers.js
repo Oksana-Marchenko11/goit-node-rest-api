@@ -44,12 +44,14 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
         res.status(200).json(result)
     };
  const updateStatusContact = async (req, res) => {
-    const {id} = req.params;
-    const result = await contactsService.updateContactById(id, req.body);
+    const {contactId} = req.params;
+    const {favorite} = req.body;
+    const result = await contactsService.updateContactById(contactId, {favorite});
     if (!result) {
-        throw HttpError(404, `Contact with id ${id} not found`);
+        throw HttpError(404, `Not found`);
     }
     res.status(200).json(result);
+
 
  };
  
