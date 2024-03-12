@@ -2,6 +2,8 @@ import * as contactsService from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
+// Виклик функцій до бази і віравлення відповіді на frontend;
+
  const getAllContacts = async (_, res) => {
           const result = await contactsService.listContacts();
         res.status(200).json(result)
@@ -53,7 +55,8 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
 
  };
- 
+  
+ // Експортуємо для передачі в роутери
 export default {
     getAllContacts: ctrlWrapper(getAllContacts),
     getOneContact: ctrlWrapper(getOneContact),

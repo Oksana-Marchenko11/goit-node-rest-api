@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+// Схема перевірки тіла запити на початку, що йде з фронту
 export const createContactSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().required(),
