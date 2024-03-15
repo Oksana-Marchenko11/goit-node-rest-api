@@ -33,7 +33,6 @@ const signin = async (req, res) => {
         throw HttpError(401, "Email or password is wrong");
     }
     const { _id: id } = user;
-    console.log(id);
 
     const payload = {
         id,
@@ -41,9 +40,7 @@ const signin = async (req, res) => {
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
 
-    console.log(token);
     res.json({ token })
-
 }
 
 export default {
