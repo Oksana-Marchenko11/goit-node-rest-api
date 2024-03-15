@@ -3,10 +3,6 @@ import { setUpdateSettings, handleSaveError } from "./hooks.js";
 import { emailRegexp } from "../constants/user-constants.js"
 
 const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-  },
   password: {
     type: String,
     required: [true, 'Password is required'],
@@ -26,11 +22,6 @@ const userSchema = new Schema({
     type: String,
     default: null,
   },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "user",
-    required: true
-  }
 }, { versionKey: false, timestamps: true });// 1-номер зміни значення, 2-час останнього оновлення;
 
 userSchema.pre("findAndUpdate", setUpdateSettings);
