@@ -8,7 +8,6 @@ import { findUser } from "../services/authServices.js";
 
 
 const authenticate = async (req, _, next) => {
-    console.log("JWT_SECRET:", JWT_SECRET);
     const { authorization } = req.headers;
     if (!authorization) {
         return next(HttpError(401, "Authorization header not found "))// якщо в next передати помилку, то одрозу переходимо в обробник помилок(app.use(err, req,...))Не забути поставити return, бо next сам по собі не перериває виконання функцій
@@ -19,11 +18,11 @@ const authenticate = async (req, _, next) => {
     }
     try {
         const { id } = jwt.verify(token, JWT_SECRET);
-        const user = findUser({ _id: id });
+        const user = await findUser({ _id: id });
         if (!user) {
             return next(HttpError(401, "User not found"));
         }
-        // req.user = user;
+        req.user = user;
         next();
     } catch (error) {
         next(HttpError(404, error.message));
