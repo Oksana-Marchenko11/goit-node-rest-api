@@ -7,7 +7,6 @@ dotenv.config();
 
 
 const { JWT_SECRET } = process.env;
-console.log('ENV.JWT_SECRET:', JWT_SECRET);
 
 const signup = async (req, res) => {
     const { email } = req.body;
@@ -27,6 +26,7 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
     const { email, password } = req.body;
     const user = await authServices.findUser({ email });
+
     if (!user) {
         throw HttpError(401, "Email or password is wrong")
     }
@@ -37,18 +37,32 @@ const signin = async (req, res) => {
     const { _id: id } = user;
 
     const payload = {
-        id,
+        id
     };
-
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
+    await authServices.updateUser({ _id: id }, { token });
 
     res.status(200).json({
         "token:": token,
         "user": { "email": user.email, "subscription": user.subscription }
     })
 }
+const getCurrent = async (req, res) => {
+    const { subscription, email } = req.user;
+    res.status(200).json({
+        "email": email,
+        "subscription": subscription
+    })
+};
+const logOut = async (req, res) => {
+    const { _id } = req.user;
+    await authServices.updateUser(_id, { token: "" });
+    res.status(204).json({ message: "No Content" });
+}
 
 export default {
     signup: ctrlWrapper(signup),
-    signin: ctrlWrapper(signin)
+    signin: ctrlWrapper(signin),
+    logOut: ctrlWrapper(logOut),
+    getCurrent: ctrlWrapper(getCurrent),
 }

@@ -18,9 +18,9 @@ const userSchema = new Schema({
     enum: ["starter", "pro", "business"],
     default: "starter"
   },
+  // Додаємо токен, щоб зберегти його в базі і щоб при logout можна було вийти стерши його.
   token: {
     type: String,
-    default: null,
   },
 }, { versionKey: false, timestamps: true });// 1-номер зміни значення, 2-час останнього оновлення;
 
