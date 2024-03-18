@@ -57,7 +57,7 @@ const getCurrent = async (req, res) => {
 const logOut = async (req, res) => {
     const { _id } = req.user;
     await authServices.updateUser(_id, { token: "" });
-    res.status(204).json({ message: "No Content" });
+    res.status(204).json();
 }
 
 export default {
