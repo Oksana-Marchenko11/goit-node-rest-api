@@ -7,7 +7,6 @@ export const findUser = filter => User.findOne(filter);
 export const signup = async (data) => {
     const hashPassword = await bcrypt.hash(data.password, 10);
     const avatarUrl = gravatar.url(data.email);
-    console.log(avatarUrl);
     return User.create({ ...data, password: hashPassword, avatarURL: avatarUrl })
 };
 

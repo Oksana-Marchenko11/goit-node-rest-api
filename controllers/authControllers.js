@@ -66,12 +66,19 @@ const logOut = async (req, res) => {
 const updateAvatar = async (req, res) => {
     const { _id } = req.user;
     const { path: tempPath, filename } = req.file;
-    const publicPath = path.join(avatarsPath, filename);
-    await fs.rename(tempPath, publicPath);
-    const avatarNewPath = path.join("avatars", filename);
-    await authServices.updateUser(_id, { avatarURL: avatarNewPath });
-    res.status(200).json({ avatarUrl: avatarNewPath });
-
+    try {
+        const image = await Jimp.read(tempPath);
+        image.resize(250, 250);
+        await image.writeAsync(tempPath);
+        const publicPath = path.join(avatarsPath, filename);
+        await fs.rename(tempPath, publicPath);
+        const avatarNewPath = path.join("avatars", filename);
+        await authServices.updateUser(_id, { avatarURL: avatarNewPath });
+        res.status(200).json({ avatarUrl: avatarNewPath });
+    } catch (error) {
+        // Обробка помилок, які можуть виникнути під час обробки аватара
+        throw HttpError(500, "Error processing avatar");
+    }
 }
 
 export default {
