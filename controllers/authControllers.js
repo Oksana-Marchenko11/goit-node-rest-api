@@ -4,9 +4,12 @@ import * as authServices from "../services/authServices.js";
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
 dotenv.config();
-
+import fs from "fs/promises";
+import path from "path";
+import Jimp from "jimp";
 
 const { JWT_SECRET } = process.env;
+const avatarsPath = path.resolve("public", "avatars");
 
 const signup = async (req, res) => {
     const { email } = req.body;
@@ -60,9 +63,21 @@ const logOut = async (req, res) => {
     res.status(204).json();
 }
 
+const updateAvatar = async (req, res) => {
+    const { _id } = req.user;
+    const { path: tempPath, filename } = req.file;
+    const publicPath = path.join(avatarsPath, filename);
+    await fs.rename(tempPath, publicPath);
+    const avatarNewPath = path.join("avatars", filename);
+    await authServices.updateUser(_id, { avatarURL: avatarNewPath });
+    res.status(200).json({ avatarUrl: avatarNewPath });
+
+}
+
 export default {
     signup: ctrlWrapper(signup),
     signin: ctrlWrapper(signin),
     logOut: ctrlWrapper(logOut),
     getCurrent: ctrlWrapper(getCurrent),
+    updateAvatar: ctrlWrapper(updateAvatar),
 }
