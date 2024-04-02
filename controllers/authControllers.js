@@ -35,6 +35,7 @@ const signin = async (req, res) => {
     }
     const comparePassword = await authServices.validatePassword(password, user.password);
     if (!comparePassword) {
+        м
         throw HttpError(401, "Email or password is wrong");
     }
     const { _id: id } = user;
@@ -65,6 +66,7 @@ const logOut = async (req, res) => {
 
 const updateAvatar = async (req, res) => {
     const { _id } = req.user;
+    if (!req.file) { throw HttpError(400, "Please downloan image") }
     const { path: tempPath, filename } = req.file;
     try {
         const image = await Jimp.read(tempPath);
