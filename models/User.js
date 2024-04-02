@@ -18,6 +18,9 @@ const userSchema = new Schema({
     enum: ["starter", "pro", "business"],
     default: "starter"
   },
+  avatarURL: {
+    type: String,
+  },
   // Додаємо токен, щоб зберегти його в базі і щоб при logout можна було вийти стерши його.
   token: {
     type: String,
