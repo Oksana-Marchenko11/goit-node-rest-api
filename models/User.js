@@ -22,6 +22,14 @@ const userSchema = new Schema({
   token: {
     type: String,
   },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
+  },
 }, { versionKey: false, timestamps: true });// 1-номер зміни значення, 2-час останнього оновлення;
 
 userSchema.pre("findAndUpdate", setUpdateSettings);

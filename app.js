@@ -5,9 +5,23 @@ import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
+import chalk from "chalk";
+import sendEmail from "./helpers/sendEmail.js";
+import { nodemailerConfig } from "./helpers/sendEmail.js";
+
 
 dotenv.config();
 const { DB_HOST, PORT = 3000 } = process.env;
+
+const email = {
+  to: "ladot36014@centerf.com",
+  subject: "Test email new",
+  html: "<p>Just test letter</p>"
+}
+
+sendEmail(email)
+  .then(() => console.log(chalk.cyan(`email sent to ${email.to} via ${nodemailerConfig.host}:${nodemailerConfig.port}`)))
+  .catch(error => console.log(chalk.red(error.message)));
 
 const app = express();
 

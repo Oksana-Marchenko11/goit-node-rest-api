@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import { nanoid } from "nanoid";
 
 export const findUser = filter => User.findOne(filter);
 
