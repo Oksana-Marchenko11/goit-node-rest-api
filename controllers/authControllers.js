@@ -94,7 +94,7 @@ const repeatVerify = async (req, res) => {
             subject: "Repeating Varification",
             html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Verify your email</a>`,
         })
-    }
+    } else { res.status(400).json({ message: "Verification has already been passed" }) }
     res.status(200).json({ message: "Verification email sent" })
 }
 
